@@ -31,7 +31,7 @@ class InstanceMainLoop:
             self.__main_loop()
         self.graceful_exit()
 
-    def __main_loop(self):
+    def __main_loop_borked(self): # pylint: disable=unused-private-member
         """
         Meaty bit of the main loop
         """
@@ -46,8 +46,76 @@ class InstanceMainLoop:
             self.__puzzle_1_logic()
         if self.__playing_puzzle_2: # Debug puzzle menu option 2
             self.__puzzle_2_logic()
-        pygame.display.flip() # Necessary for UI to update
-        self.__clock.tick(self.__settings.max_fps) # Set the FPS and tick the clock at the end of each loop
+        self.__titlescreen_ui.draw(self.__screen)
+        if self.__debug_play_puzzles_ui.visibility:
+            self.__debug_play_puzzles_ui.draw(self.__screen)
+        pygame.display.flip()
+        self.__clock.tick(self.__settings.max_fps) # Set the FPS
+
+    def __main_loop(self):
+        """
+        Meaty bit of the main loop
+        """
+        self.__ml_handle_ginr() # Handle the game needing a reload
+        self.__ml_event_handler() # Handle game events
+        if not self.check_playing_anything(): # If we're not playing anything, draw the titlescreen
+            self.__ml_handle_ui_if_not_playing() # Handle drawing various UI screens
+        self.__handle_show_text_screens() # If we need to display a text screen right now, display that
+        if self.__playing:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_w] or keys[pygame.K_UP]:
+                self.__player_puzzle_1.move("up")
+            if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+                self.__player_puzzle_1.move("down")
+            if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+                self.__player_puzzle_1.move("left")
+            if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+                self.__player_puzzle_1.move("right")
+            if keys[pygame.K_n]:
+                self.__game_map_puzzle_1.hitbox_generator.reset_hitboxes()
+            if self.__game_map_puzzle_1.all_hitboxes_collided():
+                self.return_to_main_menu()
+            self.__game_map_puzzle_1.draw_map()
+            self.__game_map_puzzle_1.hitbox_generator.set_collidability(True)
+            self.__game_map_puzzle_1.draw_hitboxes()
+            self.__player_puzzle_1.draw(self.__screen)
+            pygame.display.flip()
+        if self.__playing_puzzle_1:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_w] or keys[pygame.K_UP]:
+                self.__player_puzzle_1.move("up")
+            if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+                self.__player_puzzle_1.move("down")
+            if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+                self.__player_puzzle_1.move("left")
+            if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+                self.__player_puzzle_1.move("right")
+            if keys[pygame.K_n]:
+                self.__game_map_puzzle_1.hitbox_generator.reset_hitboxes()
+            if self.__game_map_puzzle_1.all_hitboxes_collided():
+                self.puzzle_1_return_to_main_menu()
+            self.__game_map_puzzle_1.draw_map()
+            self.__game_map_puzzle_1.hitbox_generator.set_collidability(True)
+            self.__game_map_puzzle_1.draw_hitboxes()
+            self.__player_puzzle_1.draw(self.__screen)
+            pygame.display.flip()
+        if self.__playing_puzzle_2:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_n]:
+                self.__game_map_puzzle_2.hitbox_generator.reset_hitboxes()
+            self.__game_map_puzzle_2.hitbox_generator.update_hitbox_positions()
+            self.__game_map_puzzle_2.draw_map()
+            self.__game_map_puzzle_2.draw_hitboxes()
+            self.__game_map_puzzle_2.draw_message_box("What is your doctor's name so I can schedule an appointment?", self.__screen)
+            self.__game_map_puzzle_2.hitbox_generator.set_clickability(True)
+            if self.__game_map_puzzle_2.hitbox_generator.is_the_one_clicked():
+                self.puzzle_2_return_to_main_menu()
+            pygame.display.flip()
+        self.__titlescreen_ui.draw(self.__screen)
+        if self.__debug_play_puzzles_ui.visibility:
+            self.__debug_play_puzzles_ui.draw(self.__screen)
+        pygame.display.flip()
+        self.__clock.tick(self.__settings.max_fps) # Set the FPS
 
     def __handle_screen(self):
         """
