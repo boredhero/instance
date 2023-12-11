@@ -186,6 +186,7 @@ class InstanceMainLoop:
         """
         self.__handle_game_keyboard_input_puzzle_1()
         if self.__game_map_puzzle_1.all_hitboxes_collided():
+            self.__glogger.info("All hitboxes collided, returning to main menu", name=__name__)
             self.puzzle_1_return_to_main_menu()
         self.__game_map_puzzle_1.draw_map()
         self.__game_map_puzzle_1.hitbox_generator.set_collidability(True)
@@ -284,28 +285,36 @@ class InstanceMainLoop:
         """
         Return to the main menu
         """
+        self.__glogger.info("Returning to main menu", name=__name__)
         self.__playing = False # pylint: disable=attribute-defined-outside-init
+        self.__game_map_puzzle_1.set_visibility(False)
         self.__game_map_puzzle_1.hitbox_generator.set_collidability(False)
         self.__game_map_puzzle_1.hitbox_generator.reset_hitboxes()
         self.__titlescreen_ui.set_visibility(True)
+        pygame.display.flip()
 
     def puzzle_1_return_to_main_menu(self):
         """
         Return to the main menu
         """
+        self.__glogger.info("Returning to main menu", name=__name__)
         self.__playing_puzzle_1 = False # pylint: disable=attribute-defined-outside-init
+        self.__game_map_puzzle_1.set_visibility(False)
         self.__game_map_puzzle_1.hitbox_generator.set_collidability(False)
         self.__game_map_puzzle_1.hitbox_generator.reset_hitboxes()
         self.__titlescreen_ui.set_visibility(True)
+        pygame.display.flip()
 
     def puzzle_2_return_to_main_menu(self):
         """
         Return to the main menu
         """
+        self.__glogger.info("Returning to main menu", name=__name__)
         self.__playing_puzzle_2 = False # pylint: disable=attribute-defined-outside-init
         self.__game_map_puzzle_2.hitbox_generator.set_clickability(False)
         self.__game_map_puzzle_2.hitbox_generator.reset_hitboxes()
         self.__titlescreen_ui.set_visibility(True)
+        pygame.display.flip()
 
     def get_screen(self):
         """

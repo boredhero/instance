@@ -12,6 +12,7 @@ class GameMapPuzzle1:
         """
         Map class for Game 1
         """
+        self.__glogger = GameLogger()
         self.__settings = SettingsConfig()
         self.visibility = True
         self.__cb = "color"
@@ -19,7 +20,7 @@ class GameMapPuzzle1:
             self.__cb = "bw"
         self.image_path = f"assets/backgrounds/puzzle_1/pz1_{self.__cb}_{self.__settings.screen_height}p.png"
         self.image = pygame.image.load(self.image_path)
-        self.map_surface = pygame.Surface(self.image.get_size(), flags=pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.SRCALPHA)
+        self.map_surface = pygame.Surface(self.image.get_size(), flags=pygame.HWSURFACE | pygame.DOUBLEBUF)
         self.map_surface.blit(self.image, (0, 0))
         self.screen = screen
         self.player = player
@@ -50,7 +51,14 @@ class GameMapPuzzle1:
         """
         Set map visibility
         """
+        self.__glogger.info("Setting map visibility", f"GameMapPuzzle1[{visibility}]")
         self.visibility = visibility
+        if not visibility:
+            self.player.set_visibility(False)
+            self.hitbox_generator.set_visibility(False)
+        else:
+            self.player.set_visibility(True)
+            self.hitbox_generator.set_visibility(True)
 
 class PlayerPuzzle1:
 

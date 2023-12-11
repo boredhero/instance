@@ -45,7 +45,7 @@ class SettingsConfig(metaclass=Singleton):
         # Artificially constructed helpers
         match self.screen_height:
             case 2160:
-                self.screen_size_speed_multiplier = 1.8
+                self.screen_size_speed_multiplier = 2
             case 1440:
                 self.screen_size_speed_multiplier = 1.5
             case 1080:
