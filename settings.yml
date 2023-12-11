@@ -7,6 +7,6 @@ puzzle_1_difficulty_mult: 870
 puzzle_1_difficulty_speed: 7
 puzzle_2_difficulty_number: 50
 puzzle_2_difficulty_speed: 11
-screen_height: 1080
-screen_width: 1920
+screen_height: 2160
+screen_width: 3840
 subtitles: true

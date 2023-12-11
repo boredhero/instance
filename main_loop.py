@@ -56,7 +56,7 @@ class InstanceMainLoop:
         if self.__ginr.needs_reload:
             self.__settings.refresh_from_disk()
             self.__ginr.set_needs_reload(False)
-            self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height))
+            self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height), pygame.SCALED | pygame.DOUBLEBUF)
             self.__init__() # pylint: disable=non-parent-init-called, unnecessary-dunder-call
 
     def __ml_event_handler(self):
@@ -215,7 +215,7 @@ class InstanceMainLoop:
         """
         Screen, caption, clock, and pygame.init()
         """
-        self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height)) # Set the window dimensions
+        self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height), pygame.SCALED | pygame.DOUBLEBUF) # Set the window dimensions
         pygame.display.set_caption(f"{self.__config.title} v{self.__config.version}")
         self.__clock = pygame.time.Clock()
         pygame.init()
