@@ -31,6 +31,7 @@ class SettingsConfig(metaclass=Singleton):
         self.__load_settings()
         self.screen_width = self.__settings.get("screen_width")
         self.screen_height = self.__settings.get("screen_height")
+        self.window_mode = self.__settings.get("window_mode")
         self.max_fps = self.__settings.get("max_fps")
         self.puzzle_1_difficulty = self.__settings.get("puzzle_1_difficulty")
         self.puzzle_1_difficulty_mult = self.__settings.get("puzzle_1_difficulty_mult")
@@ -83,6 +84,7 @@ class SettingsConfig(metaclass=Singleton):
         return {
             "screen_width": 1920,
             "screen_height": 1080,
+            "window_mode": "windowed",
             "max_fps": 60,
             "puzzle_1_difficulty": 10,
             "puzzle_1_difficulty_mult": 870,
