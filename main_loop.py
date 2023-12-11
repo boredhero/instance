@@ -49,14 +49,29 @@ class InstanceMainLoop:
         pygame.display.flip() # Necessary for UI to update
         self.__clock.tick(self.__settings.max_fps) # Set the FPS and tick the clock at the end of each loop
 
+    def __handle_screen(self):
+        """
+        Handle the screen
+        """
+        match self.__settings.window_mode:
+            case "windowed":
+                args = pygame.SCALED | pygame.DOUBLEBUF
+            case "fullscreen":
+                args = pygame.SCALED | pygame.FULLSCREEN | pygame.DOUBLEBUF
+            case "borderless":
+                args = pygame.SCALED | pygame.NOFRAME | pygame.DOUBLEBUF
+            case _:
+                args = pygame.SCALED | pygame.DOUBLEBUF
+        self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height), args)
+
     def __ml_handle_ginr(self):
         """
-        Handle reloading the game if we need to do that
+        Handle reloading the if we need to do that
         """
         if self.__ginr.needs_reload:
             self.__settings.refresh_from_disk()
             self.__ginr.set_needs_reload(False)
-            self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height), pygame.SCALED | pygame.DOUBLEBUF)
+            self.__handle_screen()
             self.__init__() # pylint: disable=non-parent-init-called, unnecessary-dunder-call
 
     def __ml_event_handler(self):
@@ -215,7 +230,7 @@ class InstanceMainLoop:
         """
         Screen, caption, clock, and pygame.init()
         """
-        self.__screen = pygame.display.set_mode((self.__settings.screen_width, self.__settings.screen_height), pygame.SCALED | pygame.DOUBLEBUF) # Set the window dimensions
+        self.__handle_screen()
         pygame.display.set_caption(f"{self.__config.title} v{self.__config.version}")
         self.__clock = pygame.time.Clock()
         pygame.init()

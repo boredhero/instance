@@ -42,6 +42,18 @@ class SettingsConfig(metaclass=Singleton):
         self.debug = self.__settings.get("debug")
         self.fancy_fonts = self.__settings.get("fancy_fonts")
         self.grayscale_mode = self.__settings.get("grayscale_mode")
+        # Artificially constructed helpers
+        match self.screen_height:
+            case 2160:
+                self.screen_size_speed_multiplier = 1.8
+            case 1440:
+                self.screen_size_speed_multiplier = 1.5
+            case 1080:
+                self.screen_size_speed_multiplier = 1
+            case 720:
+                self.screen_size_speed_multiplier = 0.8
+            case _:
+                self.screen_size_speed_multipliere = 1
 
     def __load_settings(self):
         """
