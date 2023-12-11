@@ -56,9 +56,10 @@ class PlayerPuzzle1:
         """
         Basic Player Class
         """
+        self.__settings = SettingsConfig()
         self.visibility = True
         self.position = start_pos
-        self.speed = 7
+        self.speed = self.__settings.puzzle_1_difficulty_speed
 
     def move(self, direction):
         """
@@ -103,7 +104,7 @@ class PuzzleHitbox1:
             self.color = (41, 41, 41)
             self.original_color = (41, 41, 41)
         self.collision_time = None
-        self.collision_duration= 870*self.__settings.puzzle_1_difficulty # milliseconds
+        self.collision_duration= self.__settings.puzzle_1_difficulty_mult*self.__settings.puzzle_1_difficulty # milliseconds
         self.is_currently_collided = False
         self.__logger = GameLogger()
 
@@ -203,7 +204,6 @@ class PuzzleHitboxGenerator1:
                 return True
         return False
 
-
     def set_collidability(self, collidability: bool):
         """
         Set hitbox collidability
@@ -247,6 +247,14 @@ class PuzzleHitboxGenerator1:
                 if not self.hitbox_overlap(new_hitbox, hitbox_radius + padding):
                     self.hitboxes.append(new_hitbox)
                     break
+
+    def reset_hitboxes(self):
+        """
+        Clear all hitboxes
+        """
+        self.hitboxes = []
+        self.create_hitboxes()
+        self.draw()
 
     def hitbox_overlap(self, new_hitbox, min_distance):
         """
