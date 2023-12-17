@@ -82,6 +82,8 @@ def get_mla_works_cited():
     Stein, Murray B., and Stein, Dan J. "Social anxiety disorder." The lancet 371.9618 (2008): 1115-1125.\n
 
     M.D., Beck, Aaron T., and Brad A. Alford., Depression: Causes and Treatment. 2nd ed., United States, University of Pennsylvania Press, Incorporated, 2014, pp. 3-62,\n doi.org/10.9783/9780812290882.\n
+
+    U/MeringueFeeling. What does depression feel like? Reddit, 9 Aug. 2021, https://www.reddit.com/r/NoStupidQuestions/comments/p0zozj/what_does_depression_feel_like/\n
     """
 
 class TextScreen:
